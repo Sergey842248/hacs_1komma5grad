@@ -7,3 +7,4 @@
 
 # Python Cache files
 __pycache__/
+*.pyc
