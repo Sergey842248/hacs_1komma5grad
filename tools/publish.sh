@@ -20,9 +20,9 @@ echo "Führe folgenden Befehl aus: $zipCommand"
 jsonFile="hacs.json"
 
 if [ -f "$jsonFile" ]; then
-  jq ".filename = \"spoolman-homeassistant_${nextReleaseVersion}.zip\"" "$jsonFile" > temp.json
+  jq ".filename = \"einskomma5grad-homeassistant_${nextReleaseVersion}.zip\"" "$jsonFile" > temp.json
   mv temp.json "$jsonFile"
-  echo "Die Eigenschaft 'filename' in '$jsonFile' wurde auf 'spoolman-homeassistant_${nextReleaseVersion}.zip' aktualisiert."
+  echo "Die Eigenschaft 'filename' in '$jsonFile' wurde auf 'einskomma5grad-homeassistant_${nextReleaseVersion}.zip' aktualisiert."
 else
   echo "Die Datei '$jsonFile' wurde nicht gefunden."
 fi
