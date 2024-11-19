@@ -4,3 +4,6 @@
 
 # Local config
 .env
+
+# Python Cache files
+__pycache__/
