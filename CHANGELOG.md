@@ -1,3 +1,10 @@
+## [1.0.2-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.1...v1.0.2-dev.1) (2024-11-19)
+
+### 🛠️ Fixes
+
+* **integration:** Fix EMS switch missing unique_id property ([ce0e9d2](https://github.com/BirknerAlex/hacs_1komma5grad/commit/ce0e9d202086d291f0933532a780d6dc067b0160))
+* **linting:** Fix linting issues and replace linter with ruff ([1b5edc5](https://github.com/BirknerAlex/hacs_1komma5grad/commit/1b5edc5b59e612ef9266eb1951825321c4582860))
+
 ## [1.0.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.0...v1.0.1) (2024-11-19)
 
 ### 🛠️ Fixes
