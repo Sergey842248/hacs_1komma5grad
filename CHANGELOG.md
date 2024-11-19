@@ -1,3 +1,9 @@
+## [1.0.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/...v1.0.0) (2024-11-19)
+
+### 🚀 Features
+
+* **integration:** Initial Release ([fbee574](https://github.com/BirknerAlex/hacs_1komma5grad/commit/fbee5743ae4995bb2689d4c114f9d2a40c1df9e3))
+
 ## [1.0.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.0...v1.0.1) (2024-11-19)
 
 ### 🛠️ Fixes
