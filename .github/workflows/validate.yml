@@ -10,4 +10,3 @@ jobs:
         uses: "hacs/action@main"
         with:
           category: "integration"
-          ignore: brands # Remove once brands PR is merged
