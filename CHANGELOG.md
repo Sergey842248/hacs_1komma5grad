@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.0...v1.0.1) (2024-11-19)
+
+### 🛠️ Fixes
+
+* **ci:** Update release configuration ([65efea7](https://github.com/BirknerAlex/hacs_1komma5grad/commit/65efea7382736ea80a3f8331086ffcc2345a63bf))
+
 ## [1.0.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/...v1.0.0) (2024-11-19)
 
 ### 🛠️ Fixes
