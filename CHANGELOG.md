@@ -14,6 +14,12 @@
 
 * **integration:** Initial Release ([fbee574](https://github.com/BirknerAlex/hacs_1komma5grad/commit/fbee5743ae4995bb2689d4c114f9d2a40c1df9e3))
 
+## [1.0.0-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2024-11-19)
+
+### 🛠️ Fixes
+
+* **ci:** Update release configuration ([7a689e0](https://github.com/BirknerAlex/hacs_1komma5grad/commit/7a689e0dcb67f3a3188a8fdc41fe4c1ffcc7fb97))
+
 ## [1.0.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/...v1.0.0-dev.1) (2024-11-19)
 
 ### 🛠️ Fixes
