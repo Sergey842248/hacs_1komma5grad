@@ -9,6 +9,10 @@ into your Home Assistant instance.
 
 This integration is not related to 1KOMMA5GRAD and not officially supported by them.
 
+## Installation
+
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=BirknerAlex&repository=hacs_1komma5grad)
+
 ## Supported devices
 
 This integration is for the 1KOMMA5GRAD Heartbeat Device Model 2024 (gen 2). If you
