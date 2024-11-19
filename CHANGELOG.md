@@ -1,3 +1,13 @@
+## [1.0.0-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/...v1.0.0-dev.1) (2024-11-19)
+
+### 🛠️ Fixes
+
+* **ci:** Update CI configuration for dev release ([1e63b54](https://github.com/BirknerAlex/hacs_1komma5grad/commit/1e63b54ac06884f0411cc5f3844a89c0c9f00144))
+
+### 🚀 Features
+
+* **integration:** Initial Release ([fbee574](https://github.com/BirknerAlex/hacs_1komma5grad/commit/fbee5743ae4995bb2689d4c114f9d2a40c1df9e3))
+
 ## [1.0.0](https://github.com/BirknerAlex/hacs_1komma5grad/compare/...v1.0.0) (2024-11-19)
 
 ### 🚀 Features
