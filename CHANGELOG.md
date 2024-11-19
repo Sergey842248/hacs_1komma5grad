@@ -1,3 +1,13 @@
+## [1.0.2-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.2-dev.1...v1.0.2-dev.2) (2024-11-19)
+
+### 🛠️ Fixes
+
+* **repo:** Cleanup pycache files from git repository ([2076f31](https://github.com/BirknerAlex/hacs_1komma5grad/commit/2076f3153f0e47261dc105cd731bf9e1e291e4ea))
+
+### 📔 Docs
+
+* **readme:** Added Installation button ([f40df7d](https://github.com/BirknerAlex/hacs_1komma5grad/commit/f40df7db9785600b14123e91cf154e0bb0782875))
+
 ## [1.0.2-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.1...v1.0.2-dev.1) (2024-11-19)
 
 ### 🛠️ Fixes
