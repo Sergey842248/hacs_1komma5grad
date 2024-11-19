@@ -1,3 +1,9 @@
+## [1.0.2-dev.3](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.2-dev.2...v1.0.2-dev.3) (2024-11-19)
+
+### 🛠️ Fixes
+
+* **repo:** Cleanup pycache files from git repository ([d2f1074](https://github.com/BirknerAlex/hacs_1komma5grad/commit/d2f10747792ffddce421ddbf93b4bfad9a9643e9))
+
 ## [1.0.2-dev.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.2-dev.1...v1.0.2-dev.2) (2024-11-19)
 
 ### 🛠️ Fixes
