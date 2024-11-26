@@ -46,9 +46,12 @@ class Client:
         if self.token_set is None:
             return True
 
-        token = self.get_token_parsed()
+        try:
+            token = self.get_token_parsed()
 
-        return token["exp"] - before < datetime.datetime.now().timestamp()
+            return token["exp"] - before < datetime.datetime.now().timestamp()
+        except jwt.exceptions.ExpiredSignatureError:
+            return True
 
     def get_token(self) -> str:
         if self.token_set is None:
