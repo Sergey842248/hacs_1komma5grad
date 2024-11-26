@@ -1,3 +1,9 @@
+## [1.0.2-dev.4](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.2-dev.3...v1.0.2-dev.4) (2024-11-26)
+
+### 🛠️ Fixes
+
+* Handle expired token and refresh if needed ([012d865](https://github.com/BirknerAlex/hacs_1komma5grad/commit/012d8654b5fe56a438c8e3e55b5dfaf39f4e1aed))
+
 ## [1.0.2-dev.3](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.2-dev.2...v1.0.2-dev.3) (2024-11-19)
 
 ### 🛠️ Fixes
