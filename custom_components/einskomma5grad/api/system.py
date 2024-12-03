@@ -103,4 +103,4 @@ class System:
         if res.status_code != 200:
             raise RequestError("Failed to get prices: " + res.text)
 
-        return res.json()["energyMarketWithGridCosts"]["data"]
+        return res.json()

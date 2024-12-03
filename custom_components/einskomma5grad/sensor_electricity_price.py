@@ -19,6 +19,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
 
         self._system_id = system_id
         self._prices = {}
+        self._vat = 0
 
     @property
     def icon(self):
@@ -62,7 +63,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
             current_price = float(self._prices[current_time]["price"])
 
             ## Round cents to full price e.g. 24,26 cents =-> 0.2430 € and 24.13 cents -> 0.2410 €
-            return round(current_price / 100.0, 4)
+            return round(current_price / 100.0, 4) * self._vat
 
         return None
 
@@ -74,6 +75,9 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
-        self._prices = self.coordinator.get_prices_by_id(self._system_id)
+        prices = self.coordinator.get_prices_by_id(self._system_id)
+
+        self._vat = float(prices["vat"] + 1)
+        self._prices = prices["energyMarketWithGridCosts"]["data"]
 
         self.async_write_ha_state()
