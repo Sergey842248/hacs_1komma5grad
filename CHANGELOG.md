@@ -1,3 +1,9 @@
+## [1.0.2-dev.6](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.2-dev.5...v1.0.2-dev.6) (2024-12-03)
+
+### 🛠️ Fixes
+
+* **ci:** Fetch tags for release ([aca374f](https://github.com/BirknerAlex/hacs_1komma5grad/commit/aca374f3cc906ae6cb36a81feafab4209e8927bd))
+
 ## [1.0.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.1...v1.0.2) (2024-12-03)
 
 ### 🛠️ Fixes
