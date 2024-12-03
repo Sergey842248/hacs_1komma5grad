@@ -1,3 +1,9 @@
+## [1.0.2-dev.5](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.2-dev.4...v1.0.2-dev.5) (2024-12-03)
+
+### 🛠️ Fixes
+
+* **deps:** Remove deps since they are both already provided by homeassistant-core ([f49f744](https://github.com/BirknerAlex/hacs_1komma5grad/commit/f49f74467b3a61da61a8cd9911cdb90d3fa813d1))
+
 ## [1.0.2-dev.4](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.2-dev.3...v1.0.2-dev.4) (2024-11-26)
 
 ### 🛠️ Fixes
