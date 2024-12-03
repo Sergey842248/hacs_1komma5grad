@@ -1,3 +1,9 @@
+## [1.0.3-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.2...v1.0.3-dev.1) (2024-12-03)
+
+### 🛠️ Fixes
+
+* **pricing:** Add VAT to energy price sensor ([6c8453e](https://github.com/BirknerAlex/hacs_1komma5grad/commit/6c8453ea8491bf6e642f8a49b202290f4ca61a13))
+
 ## [1.0.2](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.1...v1.0.2) (2024-12-03)
 
 ### 🛠️ Fixes
