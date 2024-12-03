@@ -6,7 +6,7 @@ from homeassistant.core import callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
-from .const import CURRENCY, CURRENCY_ICON, DOMAIN, TIMEZONE
+from .const import CURRENCY_ICON, DOMAIN, TIMEZONE
 from .coordinator import Coordinator
 
 
@@ -20,6 +20,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         self._system_id = system_id
         self._prices = {}
         self._vat = 0
+        self._unit = 'ct/kWh' # Default unit
 
     @property
     def icon(self):
@@ -34,7 +35,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     @property
     def unit_of_measurement(self):
         """Return the unit of measurement."""
-        return CURRENCY + "/kWh"
+        return self._unit
 
     @property
     def unique_id(self) -> str:
@@ -79,5 +80,6 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
 
         self._vat = float(prices["vat"] + 1)
         self._prices = prices["energyMarketWithGridCosts"]["data"]
+        self._unit = prices["energyMarketWithGridCosts"]["metadata"]["units"]["price"]
 
         self.async_write_ha_state()
