@@ -1,3 +1,9 @@
+## [1.0.4](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.3...v1.0.4) (2024-12-23)
+
+### 🛠️ Fixes
+
+* Handle missing refresh token properly ([5cb3533](https://github.com/BirknerAlex/hacs_1komma5grad/commit/5cb35337b0eccbe6fe3112d6ca703e9a8457579b))
+
 ## [1.0.4-dev.1](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.3...v1.0.4-dev.1) (2024-12-23)
 
 ### 🛠️ Fixes
