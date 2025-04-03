@@ -20,6 +20,8 @@ class ElectricityPriceTotalSensor(CoordinatorEntity, SensorEntity):
         self._system_id = system_id
         self._prices = {}
         self._unit = 'ct/kWh' # Default unit
+        self._grid_costs = 0
+        self._vat = 0
 
     @property
     def icon(self):
@@ -53,8 +55,14 @@ class ElectricityPriceTotalSensor(CoordinatorEntity, SensorEntity):
         )
 
         if current_time in self._prices:
-            # Get current price including grid costs and VAT
-            return float(self._prices[current_time]["price"])
+            # Get netto price from 1komma5grad API
+            netto_price = float(self._prices[current_time]["price"])
+            
+            # Calculate total price with grid costs and VAT
+            total_price = (netto_price + self._grid_costs) * (1 + self._vat)
+            
+            # Round to 2 decimal places
+            return round(total_price, 2)
 
         return None
 
@@ -68,7 +76,11 @@ class ElectricityPriceTotalSensor(CoordinatorEntity, SensorEntity):
         """Update sensor with latest data from coordinator."""
         prices = self.coordinator.get_prices_by_id(self._system_id)
 
-        # Use energyMarketWithGridCosts which already includes grid costs and VAT
-        self._prices = prices["energyMarketWithGridCosts"]["data"]
+        # Get grid costs and VAT from 1komma5grad API
+        self._grid_costs = prices["gridCostsTotal"]["value"]
+        self._vat = prices["vat"]
+        
+        # Use energyMarket prices (netto prices)
+        self._prices = prices["energyMarket"]["data"]
 
         self.async_write_ha_state() 
