@@ -1,0 +1,22 @@
+{
+  "consentGiven": true,
+  "createdAt": "2024-08-21T11:31:00.147Z",
+  "manualSettings": {
+    "0": {
+      "enableForecastCharging": true,
+      "type": "BATTERY"
+    },
+    "1": {
+      "activeChargingMode": "SOLAR_CHARGE",
+      "assignedEvId": "00000000-0000-0000-0000-000000000000",
+      "assignedEvName": "Tesla",
+      "chargerName": "Wallbox",
+      "id": "00000000-0000-0000-0000-000000000000",
+      "type": "EV_CHARGER"
+    }
+  },
+  "overrideAutoSettings": true,
+  "systemId": "00000000-0000-0000-0000-000000000000",
+  "timeOfUseEnabled": false,
+  "updatedAt": "2024-11-17T23:51:36.682Z"
+}
