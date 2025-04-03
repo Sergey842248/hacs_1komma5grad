@@ -45,4 +45,4 @@ This integration is not related to 1KOMMA5GRAD.
 
 ### Controls
 #### Modes
-- Automatic Mode
+- Heartbeat: Automatic Mode
