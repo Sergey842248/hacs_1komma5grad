@@ -138,37 +138,3 @@ class Coordinator(DataUpdateCoordinator):
         """Return prices by system id."""
 
         return self.data.live_overview[system_id]
-
-    async def get_battery_data_by_id(self, system_id: str) -> dict:
-        """Get battery data for a specific system."""
-        try:
-            system = self.get_system_by_id(system_id)
-            if system:
-                # Use existing system object to get battery data
-                battery_data = await self.hass.async_add_executor_job(
-                    system.get_battery_data
-                )
-                return battery_data
-            return {}
-        except Exception as ex:
-            _LOGGER.error("Error getting battery data: %s", ex)
-            return {}
-    
-    async def set_battery_mode(self, system_id: str, mode: str) -> bool:
-        """Set the battery mode for a specific system."""
-        try:
-            systems = Systems(self.api)
-            system = systems.get_system(system_id)
-            
-            if system:
-                success = await self.hass.async_add_executor_job(
-                    system.set_battery_mode, mode
-                )
-                if success:
-                    # Trigger a data update to refresh the state
-                    await self.async_request_refresh()
-                return success
-            return False
-        except Exception as ex:
-            _LOGGER.error("Error setting battery mode: %s", ex)
-            return False
