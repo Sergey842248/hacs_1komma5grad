@@ -23,10 +23,16 @@ async def async_setup_entry(
     # Enumerate all the sensors in your data value from your DataUpdateCoordinator and add an instance of your sensor class
     # to a list for each one.
     # This maybe different in your specific case, depending on how your data is structured
-    sensors = [
-        ElectricityPriceSensor(coordinator, system.id())
-        for system in coordinator.data.systems
-    ]
+    sensors = []
+    
+    # Neue Preis-Entitäten (Netto und Brutto)
+    for system in coordinator.data.systems:
+        sensors.append(
+            ElectricityPriceSensor(coordinator, system.id(), "net")
+        )
+        sensors.append(
+            ElectricityPriceSensor(coordinator, system.id(), "gross")
+        )
 
     for system in coordinator.data.systems:
         sensors.append(

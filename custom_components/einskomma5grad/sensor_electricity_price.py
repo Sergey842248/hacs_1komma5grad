@@ -13,14 +13,16 @@ from .coordinator import Coordinator
 class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     """Representation of an Energy Price Sensor."""
 
-    def __init__(self, coordinator: Coordinator, system_id: str) -> None:
+    def __init__(self, coordinator: Coordinator, system_id: str, price_type: str = None) -> None:
         """Initialise sensor."""
         super().__init__(coordinator)
 
         self._system_id = system_id
-        self._prices = {}
+        self._prices_net = {}
+        self._prices_gross = {}
         self._vat = 0
         self._unit = 'ct/kWh' # Default unit
+        self._price_type = price_type
 
     @property
     def icon(self):
@@ -30,7 +32,12 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"Electricity Price {self._system_id}"
+        if self._price_type == "net":
+            return f"Electricity Price Net {self._system_id}"
+        elif self._price_type == "gross":
+            return f"Electricity Price Gross {self._system_id}"
+        else:
+            return f"Electricity Price {self._system_id}"
 
     @property
     def unit_of_measurement(self):
@@ -42,7 +49,12 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         """Return unique id."""
         # All entities must have a unique id.  Think carefully what you want this to be as
         # changing it later will cause HA to create new entities.
-        return f"{DOMAIN}_electricity_price_{self._system_id}"
+        if self._price_type == "net":
+            return f"{DOMAIN}_electricity_price_net_{self._system_id}"
+        elif self._price_type == "gross":
+            return f"{DOMAIN}_electricity_price_gross_{self._system_id}"
+        else:
+            return f"{DOMAIN}_electricity_price_{self._system_id}"
 
     @property
     def native_value(self) -> None | float:
@@ -58,12 +70,17 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
             .strftime("%Y-%m-%dT%H:%MZ")
         )
 
-        # self._prices is an dict where the time is the key and the price is in another dict with "price" as key
-        if current_time in self._prices:
-            # Current price contains the amount of cents per kWh
-            current_price = float(self._prices[current_time]["price"])
-
-            ## Round cents to full price e.g. 24,26 cents =-> 0.2430 € and 24.13 cents -> 0.2410 €
+        if self._price_type == "net" and current_time in self._prices_net:
+            # Return net price (ohne MwSt. und ohne Netzentgelte)
+            current_price = float(self._prices_net[current_time]["price"])
+            return round(current_price / 100.0, 4)
+        elif self._price_type == "gross" and current_time in self._prices_gross:
+            # Return gross price (mit MwSt. und mit Netzentgelten)
+            current_price = float(self._prices_gross[current_time]["price"])
+            return round(current_price / 100.0, 4) * self._vat
+        elif current_time in self._prices_gross:
+            # Legacy behavior - return gross price
+            current_price = float(self._prices_gross[current_time]["price"])
             return round(current_price / 100.0, 4) * self._vat
 
         return None
@@ -79,7 +96,11 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         prices = self.coordinator.get_prices_by_id(self._system_id)
 
         self._vat = float(prices["vat"] + 1)
-        self._prices = prices["energyMarketWithGridCosts"]["data"]
+        # Für den Nettopreis verwenden wir energyMarket (ohne Netzentgelte)
+        self._prices_net = prices["energyMarket"]["data"]
+        # Für den Bruttopreis verwenden wir energyMarketWithGridCosts (mit Netzentgelten)
+        self._prices_gross = prices["energyMarketWithGridCosts"]["data"]
+        # Wir verwenden die Einheit aus der Quelle mit Netzentgelten
         self._unit = prices["energyMarketWithGridCosts"]["metadata"]["units"]["price"]
 
         self.async_write_ha_state()
