@@ -2,47 +2,24 @@
 
 # 1KOMMA5GRAD Home Assistant Integration
 
+> Warning: This integration is still in development and not yet ready for production use.
+
 This is a custom integration for [Home Assistant](https://www.home-assistant.io/) to integrate 1KOMMA5GRAD 
 into your Home Assistant instance.
 
-This integration is not related to 1KOMMA5GRAD.
-
-
+This integration is not related to 1KOMMA5GRAD and not officially supported by them.
 
 ## Installation
 
-### Automatic:
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Sergey842248&repository=hacs_1komma5grad)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=BirknerAlex&repository=hacs_1komma5grad)
 
-### Manual:
-1. Navigate in your Home Assistant frontend to **Supervisor** -> **Settings** -> **HACS** -> **Custom repositories** -> **Paste ```https://github.com/Sergey842248/hacs_1komma5grad```** -> choose **Integration** -> **Click "ADD"**
-3. **Reload** the site
-4. Find/Search the **"1KOMMA5GRAD"** add-on and click it.
-5. Click on the **"INSTALL"** button.
+## Supported devices
 
+This integration is for the 1KOMMA5GRAD Heartbeat Device Model 2024 (gen 2). If you
+still using the first generation of the device, this integration will not work for you.
 
-## Support
-### Supported devices
-- 1KOMMA5GRAD Heartbeat 2024 (gen 2)
-  
-### Unsupported devices
-- 1KOMMA5GRAD Heartbeat 2024 (gen 1) (for this device use https://github.com/derlangemarkus/1komma5grad_ha) 
+If you still running the first generation, please take a look into https://github.com/derlangemarkus/1komma5grad_ha.
 
+## Contribute
 
-
-## Features
-
-### Sensors
-#### Grid 
-- Grid Consumption
-- Grid Feed In
-- Grid Power
-
-#### Power
-- Power Consumption
-- Power Production
-</br>
-
-### Controls
-#### Modes
-- Automatic Mode
+If you want to contribute to this project, please have a look at the [CONTRIBUTE.md](CONTRIBUTE.md) file.

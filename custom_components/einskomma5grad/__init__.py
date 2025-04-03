@@ -79,5 +79,3 @@ async def async_unload_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> 
 
     # Return that unloading was successful.
     return unload_ok
-
-__version__ = "1.1.1"

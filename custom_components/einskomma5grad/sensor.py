@@ -1,6 +1,3 @@
-"""Support for Einskomma5grad sensors."""
-from __future__ import annotations
-
 import logging
 
 from homeassistant.config_entries import ConfigEntry
@@ -9,8 +6,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN
 from .coordinator import Coordinator
-from .sensor_electricity_price_netto import ElectricityPriceEuroSensor
-from .sensor_electricity_price_total import ElectricityPriceTotalSensor
+from .sensor_electricity_price import ElectricityPriceSensor
 from .sensor_power_generic import GenericPowerSensor
 
 _LOGGER = logging.getLogger(__name__)
@@ -21,23 +17,16 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up Einskomma5grad sensors from a config entry."""
-    coordinator: Coordinator = hass.data[DOMAIN][config_entry.entry_id]
+    """Set up the Sensors."""
+    coordinator: Coordinator = hass.data[DOMAIN][config_entry.entry_id].coordinator
 
-    # Initialize sensors list
-    sensors = []
-
-    # Add Cent price sensors
-    sensors.extend([
-        ElectricityPriceEuroSensor(coordinator, system.id())
+    # Enumerate all the sensors in your data value from your DataUpdateCoordinator and add an instance of your sensor class
+    # to a list for each one.
+    # This maybe different in your specific case, depending on how your data is structured
+    sensors = [
+        ElectricityPriceSensor(coordinator, system.id())
         for system in coordinator.data.systems
-    ])
-
-    # Add total price sensors (including grid costs and VAT)
-    sensors.extend([
-        ElectricityPriceTotalSensor(system.id(), coordinator)
-        for system in coordinator.data.systems
-    ])
+    ]
 
     for system in coordinator.data.systems:
         sensors.append(
@@ -56,7 +45,7 @@ async def async_setup_entry(
                 key="grid",
                 system_id=system.id(),
                 name="Grid",
-            )
+            ),
         )
         sensors.append(
             GenericPowerSensor(
@@ -65,7 +54,7 @@ async def async_setup_entry(
                 key="consumption",
                 system_id=system.id(),
                 name="Consumption",
-            )
+            ),
         )
         sensors.append(
             GenericPowerSensor(
@@ -74,7 +63,7 @@ async def async_setup_entry(
                 key="production",
                 system_id=system.id(),
                 name="Production",
-            )
+            ),
         )
         sensors.append(
             GenericPowerSensor(
@@ -83,7 +72,7 @@ async def async_setup_entry(
                 key="evChargersAggregated",
                 system_id=system.id(),
                 name="EV Chargers Aggregated",
-            )
+            ),
         )
         sensors.append(
             GenericPowerSensor(
@@ -92,7 +81,7 @@ async def async_setup_entry(
                 key="heatPumpsAggregated",
                 system_id=system.id(),
                 name="Heat Pumps Aggregated",
-            )
+            ),
         )
         sensors.append(
             GenericPowerSensor(
@@ -101,7 +90,7 @@ async def async_setup_entry(
                 key="gridFeedIn",
                 system_id=system.id(),
                 name="Grid Feed In",
-            )
+            ),
         )
 
     async_add_entities(sensors)
