@@ -8,9 +8,10 @@ from homeassistant.util import dt as dt_util
 
 from .const import CURRENCY_ICON, DOMAIN, TIMEZONE
 from .coordinator import Coordinator
+from .sensor_electricity_price import ElectricityPriceSensor
 
 
-class ElectricityPriceEuroSensor(CoordinatorEntity, SensorEntity):
+class ElectricityPriceEuroSensor(ElectricityPriceSensor):
     """Representation of an Energy Price Sensor in Cent."""
 
     def __init__(self, coordinator: Coordinator, system_id: str) -> None:
@@ -39,18 +40,12 @@ class ElectricityPriceEuroSensor(CoordinatorEntity, SensorEntity):
     @property
     def unique_id(self) -> str:
         """Return unique id."""
-        return f"{DOMAIN}_electricity_price_cent_{self._system_id}"
+        return f"{self.DOMAIN}_electricity_price_cent_{self._system_id}"
 
     @property
     def native_value(self) -> None | float:
         """Return the state of the entity."""
-        tz = ZoneInfo(TIMEZONE)
-        current_time = (
-            dt_util.now()
-            .replace(minute=0, second=0, microsecond=0)
-            .astimezone(tz)
-            .strftime("%Y-%m-%dT%H:%MZ")
-        )
+        current_time = self._get_current_time()
 
         if current_time in self._prices:
             # Current price in cents per kWh
