@@ -1,3 +1,23 @@
+## [1.2.0](https://github.com/Sergey842248/hacs_1komma5grad/compare/v1.0.6...v1.1.0) (2025-04-01)
+
+### 🆕 Added
+
+* Added Current Price Total Sensor
+
+### ❌ Removed
+
+* Removed Old Price Sensor Entity
+
+## [1.1.0](https://github.com/Sergey842248/hacs_1komma5grad/compare/v1.0.6...v1.1.0) (2025-04-01)
+
+### 🆕 Added
+
+* Added Current Price
+
+### 📔 Docs
+
+* Updated ReadMe
+
 ## [1.0.4](https://github.com/BirknerAlex/hacs_1komma5grad/compare/v1.0.3...v1.0.4) (2024-12-23)
 
 ### 🛠️ Fixes
