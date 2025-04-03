@@ -6,7 +6,8 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN
 from .coordinator import Coordinator
-from .sensor_electricity_price import ElectricityPriceSensor
+from .sensor_electricity_price_netto import ElectricityPriceEuroSensor
+from .sensor_electricity_price_total import ElectricityPriceTotalSensor
 from .sensor_power_generic import GenericPowerSensor
 
 _LOGGER = logging.getLogger(__name__)
@@ -20,19 +21,20 @@ async def async_setup_entry(
     """Set up the Sensors."""
     coordinator: Coordinator = hass.data[DOMAIN][config_entry.entry_id].coordinator
 
-    # Enumerate all the sensors in your data value from your DataUpdateCoordinator and add an instance of your sensor class
-    # to a list for each one.
-    # This maybe different in your specific case, depending on how your data is structured
+    # Initialize sensors list
     sensors = []
-    
-    # Neue Preis-Entitäten (Netto und Brutto)
-    for system in coordinator.data.systems:
-        sensors.append(
-            ElectricityPriceSensor(coordinator, system.id(), "net")
-        )
-        sensors.append(
-            ElectricityPriceSensor(coordinator, system.id(), "gross")
-        )
+
+    # Add Cent price sensors
+    sensors.extend([
+        ElectricityPriceEuroSensor(coordinator, system.id())
+        for system in coordinator.data.systems
+    ])
+
+    # Add total price sensors (including grid costs and VAT)
+    sensors.extend([
+        ElectricityPriceTotalSensor(coordinator, system.id())
+        for system in coordinator.data.systems
+    ])
 
     for system in coordinator.data.systems:
         sensors.append(
