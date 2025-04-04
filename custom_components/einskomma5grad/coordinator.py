@@ -138,33 +138,3 @@ class Coordinator(DataUpdateCoordinator):
         """Return prices by system id."""
 
         return self.data.live_overview[system_id]
-
-    def set_battery_mode(self, system_id: str, mode: str):
-        """Set the battery mode for a system."""
-        systems = Systems(self.api)
-        system = systems.get_system(system_id)
-        
-        # Get current EMS settings
-        ems_settings = system.get_ems_settings()
-        manual_settings = ems_settings["manualSettings"]
-        
-        # Find the battery settings
-        battery_key = None
-        for key, value in manual_settings.items():
-            if value.get("type") == "BATTERY":
-                battery_key = key
-                break
-        
-        if battery_key is None:
-            # If no battery settings found, create new ones
-            battery_key = str(len(manual_settings))
-            manual_settings[battery_key] = {
-                "type": "BATTERY",
-                "mode": mode
-            }
-        else:
-            # Update existing battery settings
-            manual_settings[battery_key]["mode"] = mode
-        
-        # Set the EMS mode with updated manual settings
-        system.set_ems_mode(False, manual_settings)
