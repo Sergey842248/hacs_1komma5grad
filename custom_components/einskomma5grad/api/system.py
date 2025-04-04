@@ -67,13 +67,16 @@ class System:
         return res.json()
 
     # Set the EMS mode of the system
-    def set_ems_mode(self, auto: bool):
+    def set_ems_mode(self, auto: bool, manual_settings: dict = None):
         res = requests.post(
             url=self.client.HEARTBEAT_API
             + "/api/v1/systems/"
             + self.id()
             + "/ems/actions/set-manual-override",
-            json={"manualSettings": {}, "overrideAutoSettings": auto is False},
+            json={
+                "manualSettings": manual_settings or {},
+                "overrideAutoSettings": auto is False
+            },
             headers={
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + self.client.get_token(),
