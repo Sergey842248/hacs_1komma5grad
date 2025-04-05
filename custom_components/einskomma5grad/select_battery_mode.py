@@ -25,6 +25,14 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
             "AUTO"
         ]
         self._attr_current_option = None
+        
+        # Dictionary for translating option values to display names
+        self._option_translations = {
+            "OPTIMIZE_FEED_IN": "Optimize Feed In",
+            "OPTIMIZE_SELF_CONSUMPTION": "Optimize Self Consumption",
+            "FULL_BACKUP": "Full Backup",
+            "AUTO": "Auto"
+        }
 
     @property
     def icon(self):
@@ -32,12 +40,15 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
 
     @property
     def options(self) -> list[str]:
-        return self._attr_options
+        """Return the list of options."""
+        return [self._option_translations.get(option, option) for option in self._attr_options]
 
     @property
     def current_option(self) -> str | None:
         """Return the selected option."""
-        return self._attr_current_option
+        if self._attr_current_option is None:
+            return None
+        return self._option_translations.get(self._attr_current_option, self._attr_current_option)
 
     @property
     def unique_id(self) -> str:
