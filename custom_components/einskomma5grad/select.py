@@ -7,6 +7,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from .const import DOMAIN
 from .coordinator import Coordinator
 from .select_ev_charging_mode import EVChargingModeSelect
+from .select_battery_mode import BatteryModeSelect
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -21,7 +22,10 @@ async def async_setup_entry(
 
     entities = []
 
+    # Add battery mode select entities
     for system in coordinator.data.systems:
+        entities.append(BatteryModeSelect(coordinator, system.id()))
+
         cards = coordinator.data.live_overview[system.id()]["summaryCards"]
 
         if "evs" not in cards:

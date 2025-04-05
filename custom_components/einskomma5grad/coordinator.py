@@ -11,7 +11,6 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 from homeassistant.util import dt as dt_util
 
 from .api.client import Client
-from .api.battery import BatteryClient
 from .api.error import ApiError
 from .api.ev_charger import ChargingMode
 from .api.system import System
@@ -26,10 +25,12 @@ class SystemsData:
     """Class to hold api data."""
 
     systems: list[System]
+
     prices: dict[str, dict] = None
+
     live_overview: dict[str, dict] = None
+
     ems_settings: dict[str, bool] = None
-    battery_mode: str = "auto"
 
 
 class Coordinator(DataUpdateCoordinator):
@@ -46,7 +47,6 @@ class Coordinator(DataUpdateCoordinator):
         self.api = Client(
             config_entry.data[CONF_USERNAME], config_entry.data[CONF_PASSWORD]
         )
-        self.battery_client = BatteryClient(self.api)
 
         # set variables from options.  You need a default here incase options have not been set
         self.poll_interval = config_entry.options.get(
@@ -97,19 +97,12 @@ class Coordinator(DataUpdateCoordinator):
                 live_overview[system.id()] = await self.hass.async_add_executor_job(
                     system.get_live_overview,
                 )
-
-            # Get current battery mode
-            battery_mode = await self.hass.async_add_executor_job(
-                self.battery_client.get_battery_mode
-            )
-
             # What is returned here is stored in self.data by the DataUpdateCoordinator
             return SystemsData(
                 systems=systems,
                 prices=prices,
                 live_overview=live_overview,
                 ems_settings=ems_settings,
-                battery_mode=battery_mode,
             )
         except ApiError as err:
             raise UpdateFailed(err) from err
@@ -146,10 +139,32 @@ class Coordinator(DataUpdateCoordinator):
 
         return self.data.live_overview[system_id]
 
-    async def set_battery_mode(self, mode: str) -> None:
-        """Set the battery mode."""
-        await self.hass.async_add_executor_job(
-            self.battery_client.set_battery_mode,
-            mode,
-        )
-        await self.async_request_refresh()
+    def set_battery_mode(self, system_id: str, mode: str):
+        """Set the battery mode for a system."""
+        systems = Systems(self.api)
+        system = systems.get_system(system_id)
+        
+        # Get current EMS settings
+        ems_settings = system.get_ems_settings()
+        manual_settings = ems_settings["manualSettings"]
+        
+        # Find the battery settings
+        battery_key = None
+        for key, value in manual_settings.items():
+            if value.get("type") == "BATTERY":
+                battery_key = key
+                break
+        
+        if battery_key is None:
+            # If no battery settings found, create new ones
+            battery_key = str(len(manual_settings))
+            manual_settings[battery_key] = {
+                "type": "BATTERY",
+                "mode": mode
+            }
+        else:
+            # Update existing battery settings
+            manual_settings[battery_key]["mode"] = mode
+        
+        # Set the EMS mode with updated manual settings
+        system.set_ems_mode(False, manual_settings)
