@@ -24,7 +24,7 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the battery mode select entity."""
-    coordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator = hass.data[DOMAIN][entry.entry_id].coordinator
     async_add_entities([Einskomma5gradBatteryMode(coordinator)])
 
 class Einskomma5gradBatteryMode(Einskomma5gradEntity, SelectEntity):
@@ -34,13 +34,14 @@ class Einskomma5gradBatteryMode(Einskomma5gradEntity, SelectEntity):
     _attr_name = "Batteriemodus"
     _attr_options = list(BATTERY_MODES.keys())
     _attr_translation_key = "battery_mode"
+    _attr_icon = "mdi:battery-charging"
 
     @property
     def current_option(self) -> str:
         """Return the current selected option."""
-        return self.coordinator.data.get("battery_mode", "optimize_self_consumption")
+        return self.coordinator.data.battery_mode
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-        await self.coordinator.api.set_battery_mode(option)
+        await self.coordinator.set_battery_mode(option)
         await self.coordinator.async_request_refresh() 
