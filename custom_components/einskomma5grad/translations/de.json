@@ -1,0 +1,14 @@
+{
+    "entity": {
+        "select": {
+            "battery_mode": {
+                "state": {
+                    "optimize_feed_in": "Einspeisung optimieren",
+                    "full_backup": "Vollständige Absicherung",
+                    "optimize_self_consumption": "Eigenverbrauch optimieren",
+                    "manual": "Manuell"
+                }
+            }
+        }
+    }
+} 
