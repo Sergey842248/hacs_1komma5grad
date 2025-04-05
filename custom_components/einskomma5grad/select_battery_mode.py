@@ -76,7 +76,5 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
             battery_data = live_overview["summaryCards"]["battery"]
             if "mode" in battery_data:
                 self._attr_current_option = battery_data["mode"]
-            else:
-                self._attr_current_option = "AUTO"  # Default mode
 
         self.async_write_ha_state() 
