@@ -25,14 +25,6 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
             "AUTO"
         ]
         self._attr_current_option = None
-        
-        # Dictionary for translating option values to display names
-        self._option_translations = {
-            "OPTIMIZE_FEED_IN": "Optimize Feed In",
-            "OPTIMIZE_SELF_CONSUMPTION": "Optimize Self Consumption",
-            "FULL_BACKUP": "Full Backup",
-            "AUTO": "Auto"
-        }
 
     @property
     def icon(self):
@@ -41,14 +33,24 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
     @property
     def options(self) -> list[str]:
         """Return the list of options."""
-        return [self._option_translations.get(option, option) for option in self._attr_options]
+        return [
+            "Optimize Feed In",
+            "Optimize Self Consumption",
+            "Full Backup",
+            "Auto"
+        ]
 
     @property
     def current_option(self) -> str | None:
         """Return the selected option."""
-        if self._attr_current_option is None:
-            return None
-        return self._option_translations.get(self._attr_current_option, self._attr_current_option)
+        # Map the internal mode to the display name
+        mode_mapping = {
+            "OPTIMIZE_FEED_IN": "Optimize Feed In",
+            "OPTIMIZE_SELF_CONSUMPTION": "Optimize Self Consumption",
+            "FULL_BACKUP": "Full Backup",
+            "AUTO": "Auto"
+        }
+        return mode_mapping.get(self._attr_current_option, self._attr_current_option)
 
     @property
     def unique_id(self) -> str:
@@ -62,7 +64,16 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-        if option not in self._attr_options:
+        # Map the display name back to the internal mode
+        mode_mapping = {
+            "Optimize Feed In": "OPTIMIZE_FEED_IN",
+            "Optimize Self Consumption": "OPTIMIZE_SELF_CONSUMPTION",
+            "Full Backup": "FULL_BACKUP",
+            "Auto": "AUTO"
+        }
+        
+        internal_mode = mode_mapping.get(option)
+        if internal_mode is None:
             _LOGGER.error("Invalid option selected: %s", option)
             return
 
@@ -70,11 +81,11 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
         await self.hass.async_add_executor_job(
             self.coordinator.set_battery_mode,
             self._system_id,
-            option,
+            internal_mode,
         )
 
         # Update the current option
-        self._attr_current_option = option
+        self._attr_current_option = internal_mode
         self.async_write_ha_state()
 
     @callback
