@@ -45,4 +45,5 @@ This integration is not related to 1KOMMA5GRAD.
 
 ### Controls
 #### Modes
-- Heartbeat: Automatic Mode
+- Heartbeat: Toggle Automatic Mode
+- Battery: Control Battery Mode (Feed In, Self Consumtion, Backup, Auto)
