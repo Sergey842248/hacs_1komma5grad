@@ -22,7 +22,6 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
             "OPTIMIZE_FEED_IN",
             "OPTIMIZE_SELF_CONSUMPTION",
             "FULL_BACKUP",
-            "PREVENT_FEED_IN",
             "AUTO"
         ]
         self._attr_current_option = None
@@ -38,7 +37,6 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
             "Optimize Feed In",
             "Optimize Self Consumption",
             "Full Backup",
-            "Prevent Feed In",
             "Auto"
         ]
 
@@ -50,7 +48,6 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
             "OPTIMIZE_FEED_IN": "Optimize Feed In",
             "OPTIMIZE_SELF_CONSUMPTION": "Optimize Self Consumption",
             "FULL_BACKUP": "Full Backup",
-            "PREVENT_FEED_IN": "Prevent Feed In",
             "AUTO": "Auto"
         }
         return mode_mapping.get(self._attr_current_option, self._attr_current_option)
@@ -72,7 +69,6 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
             "Optimize Feed In": "OPTIMIZE_FEED_IN",
             "Optimize Self Consumption": "OPTIMIZE_SELF_CONSUMPTION",
             "Full Backup": "FULL_BACKUP",
-            "Prevent Feed In": "PREVENT_FEED_IN",
             "Auto": "AUTO"
         }
         
@@ -103,4 +99,4 @@ class BatteryModeSelect(CoordinatorEntity, SelectEntity):
             if "mode" in battery_data:
                 self._attr_current_option = battery_data["mode"]
 
-        self.async_write_ha_state()
+        self.async_write_ha_state() 
