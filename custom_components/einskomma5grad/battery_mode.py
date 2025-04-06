@@ -8,7 +8,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.entity import EntityCategory
 
 from .const import DOMAIN
-from .coordinator import Einskomma5gradDataUpdateCoordinator
+from .coordinator import Coordinator
 from .entity import Einskomma5gradEntity
 
 BATTERY_MODES = {
@@ -36,6 +36,7 @@ class Einskomma5gradBatteryMode(Einskomma5gradEntity, SelectEntity):
     _attr_options = list(BATTERY_MODES.keys())
     _attr_translation_key = "battery_mode"
     _attr_icon = "mdi:battery-charging"
+    _attr_unique_id = "battery_mode"
 
     @property
     def current_option(self) -> str:
