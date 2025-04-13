@@ -10,8 +10,8 @@ from .const import CURRENCY_ICON, DOMAIN, TIMEZONE
 from .coordinator import Coordinator
 
 
-class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
-    """Representation of an Energy Price Sensor."""
+class ElectricityPriceTotalSensor(CoordinatorEntity, SensorEntity):
+    """Representation of an Energy Price Sensor including grid costs and VAT."""
 
     def __init__(self, coordinator: Coordinator, system_id: str) -> None:
         """Initialise sensor."""
@@ -19,8 +19,9 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
 
         self._system_id = system_id
         self._prices = {}
-        self._vat = 0
         self._unit = 'ct/kWh' # Default unit
+        self._grid_fee = 15.2  # Grid fee in ct/kWh
+        self._vat_rate = 0.19  # 19% VAT
 
     @property
     def icon(self):
@@ -30,7 +31,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"Electricity Price {self._system_id}"
+        return f"Electricity Price Total {self._system_id}"
 
     @property
     def unit_of_measurement(self):
@@ -40,16 +41,11 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
     @property
     def unique_id(self) -> str:
         """Return unique id."""
-        # All entities must have a unique id.  Think carefully what you want this to be as
-        # changing it later will cause HA to create new entities.
-        return f"{DOMAIN}_electricity_price_{self._system_id}"
+        return f"{DOMAIN}_electricity_price_total_{self._system_id}"
 
     @property
     def native_value(self) -> None | float:
         """Return the state of the entity."""
-        # Using native value and native unit of measurement, allows you to change units
-        # in Lovelace and HA will automatically calculate the correct value.
-
         tz = ZoneInfo(TIMEZONE)
         current_time = (
             dt_util.now()
@@ -58,13 +54,17 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
             .strftime("%Y-%m-%dT%H:%MZ")
         )
 
-        # self._prices is an dict where the time is the key and the price is in another dict with "price" as key
-        if current_time in self._prices:
-            # Current price contains the amount of cents per kWh
-            current_price = float(self._prices[current_time]["price"])
-
-            ## Round cents to full price e.g. 24,26 cents =-> 0.2430 € and 24.13 cents -> 0.2410 €
-            return round(current_price / 100.0, 4) * self._vat
+        # Get net price from the coordinator
+        prices_netto = self.coordinator.get_prices_by_id(self._system_id)
+        if current_time in prices_netto["energyMarket"]["data"]:
+            # Get net price
+            net_price = float(prices_netto["energyMarket"]["data"][current_time]["price"])
+            
+            # Calculate total price: net price + VAT + grid fee
+            vat_amount = net_price * self._vat_rate
+            total_price = net_price + vat_amount + self._grid_fee
+            
+            return round(total_price, 2)
 
         return None
 
@@ -78,8 +78,7 @@ class ElectricityPriceSensor(CoordinatorEntity, SensorEntity):
         """Update sensor with latest data from coordinator."""
         prices = self.coordinator.get_prices_by_id(self._system_id)
 
-        self._vat = float(prices["vat"] + 1)
-        self._prices = prices["energyMarketWithGridCosts"]["data"]
-        self._unit = prices["energyMarketWithGridCosts"]["metadata"]["units"]["price"]
-
+        # Store both price types for calculation
+        self._prices = prices
+        
         self.async_write_ha_state()
